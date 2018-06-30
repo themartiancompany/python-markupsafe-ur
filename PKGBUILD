@@ -4,7 +4,7 @@
 
 pkgname=('python-markupsafe' 'python2-markupsafe')
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Implements a XML/HTML/XHTML Markup safe string for Python"
 arch=('x86_64')
 url="http://pypi.python.org/pypi/MarkupSafe"
