@@ -6,9 +6,20 @@
 # Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
 # Maintainer: Truocolo <truocolo@aol.com>
 
-pkgname=python-markupsafe
+_py="python"
+_pyver="$( \
+  "${_py}" \
+    -V | \
+    awk \
+      '{print $2}')"
+_pymajver="${_pyver%.*}"
+_pyminver="${_pymajver#*.}"
+_pynextver="${_pymajver%.*}.$(( \
+  ${_pyminver} + 1))"
+_pkg=markupsafe
+pkgname="${_py}-${_pkg}"
 pkgver=2.1.4
-_commit=b7cd6523579ea5a08d89799f2a64ec2c2bc45eca
+_commit="b7cd6523579ea5a08d89799f2a64ec2c2bc45eca"
 pkgrel=1
 pkgdesc="Implements a XML/HTML/XHTML Markup safe string for Python"
 arch=(
@@ -21,35 +32,48 @@ arch=(
   'armv7h'
 )
 url="https://pypi.python.org/pypi/MarkupSafe"
-license=('BSD')
+license=(
+  'BSD'
+)
 depends=(
-  'python'
+  "${_py}>=${_pymajver}"
+  "${_py}<${_pynextver}"
 )
 makedepends=(
   'git'
-  'python-setuptools'
+  "${_py}-setuptools"
 )
 checkdepends=(
-  'python-pytest'
+  "${_py}-pytest"
 )
+_http="https://github.com"
+_ns="pallets"
+_url="${_http}/${_ns}/${_pkg}"
 source=(
-  "git+https://github.com/pallets/markupsafe.git#commit=$_commit"
+  "${_pkg}-${pkgver}::git+${_url}.git#commit=${_commit}"
 )
 sha512sums=('SKIP')
 
 build() {
-  cd markupsafe
-  python setup.py build
+  cd \
+    "${_pkg}-${pkgver}"
+  "${_py}" \
+    setup.py \
+      build
 }
 
 check() {
-  cd markupsafe
-  PYTHONPATH=src pytest
+  cd \
+    "${_pkg}-${pkgver}"
+  "${_py}" \
+  PYTHONPATH=src \
+  pytest
 }
 
 package() {
-  cd markupsafe
-  python \
+  cd \
+    "${_pkg}-${pkgver}"
+  "${_py}" \
     setup.py \
       install \
         --root="${pkgdir}" \
@@ -58,7 +82,7 @@ package() {
     -Dm644 \
       LICENSE.rst \
     -t \
-      "$pkgdir"/usr/share/licenses/$pkgname/
+      "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim:set sw=2 sts=-1 et:

@@ -14,8 +14,9 @@ pkgbase = python-markupsafe
 	checkdepends = python-pytest
 	makedepends = git
 	makedepends = python-setuptools
-	depends = python
-	source = git+https://github.com/pallets/markupsafe.git#commit=b7cd6523579ea5a08d89799f2a64ec2c2bc45eca
+	depends = python>=3.12
+	depends = python<3.13
+	source = markupsafe-2.1.4::git+https://github.com/pallets/markupsafe.git#commit=b7cd6523579ea5a08d89799f2a64ec2c2bc45eca
 	sha512sums = SKIP
 
 pkgname = python-markupsafe
